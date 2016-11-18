@@ -47,14 +47,14 @@ COPY container-scripts/* /u01/oracle/
 
 # Configuration of WLS Domain
 WORKDIR /u01/oracle
-RUN /u01/oracle/wlst /u01/oracle/create-wls-domain.py && \
-    mkdir -p /u01/oracle/user_projects/domains/base_domain/servers/AdminServer/security && \
-    echo "username=weblogic" > /u01/oracle/user_projects/domains/base_domain/servers/AdminServer/security/boot.properties && \ 
-    echo "password=$ADMIN_PASSWORD" >> /u01/oracle/user_projects/domains/base_domain/servers/AdminServer/security/boot.properties && \
-    echo ". /u01/oracle/user_projects/domains/base_domain/bin/setDomainEnv.sh" >> /u01/oracle/.bashrc && \ 
-    echo "export PATH=$PATH:/u01/oracle/wlserver/common/bin:/u01/oracle/user_projects/domains/base_domain/bin" >> /u01/oracle/.bashrc && \
-    cp /u01/oracle/commEnv.sh /u01/oracle/wlserver/common/bin/commEnv.sh && \
-    rm /u01/oracle/create-wls-domain.py /u01/oracle/jaxrs2-template.jar 
+RUN /u01/oracle/wlst /u01/oracle/create-wls-domain.py
+RUN mkdir -p /u01/oracle/user_projects/domains/base_domain/servers/AdminServer/security
+RUN echo "username=weblogic" > /u01/oracle/user_projects/domains/base_domain/servers/AdminServer/security/boot.properties 
+RUN echo "password=$ADMIN_PASSWORD" >> /u01/oracle/user_projects/domains/base_domain/servers/AdminServer/security/boot.properties
+RUN echo ". /u01/oracle/user_projects/domains/base_domain/bin/setDomainEnv.sh" >> /u01/oracle/.bashrc 
+RUN echo "export PATH=$PATH:/u01/oracle/wlserver/common/bin:/u01/oracle/user_projects/domains/base_domain/bin" >> /u01/oracle/.bashrc
+RUN cp /u01/oracle/commEnv.sh /u01/oracle/wlserver/common/bin/commEnv.sh
+RUN rm /u01/oracle/create-wls-domain.py /u01/oracle/jaxrs2-template.jar 
 
 # Expose Node Manager default port, and also default http/https ports for admin console
 EXPOSE $NM_PORT $ADMIN_PORT $MS_PORT
